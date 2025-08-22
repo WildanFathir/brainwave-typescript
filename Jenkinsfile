@@ -1,8 +1,11 @@
 pipeline {
-    agent any
+    agent {
+        docker { image 'node:18' }
+    }
 
     environment {
-        DOCKER_CRED = credentials('ci-cd-test') // ID credential di Jenkins
+        DOCKER_HUB = "wildanfathir/brainwave-typescript"
+        DOCKER_CREDENTIALS_ID = "ci-cd-test"
     }
 
     stages {
@@ -19,16 +22,15 @@ pipeline {
             }
         }
 
-        stage('Docker Build') {
+        stage('Docker Build & Push') {
             steps {
-                sh 'docker build -t wildanfathir/brainwave-typescript:latest .'
-            }
-        }
-
-        stage('Docker Push') {
-            steps {
-                sh "echo $DOCKER_CRED_PSW | docker login -u $DOCKER_CRED_USR --password-stdin"
-                sh 'docker push wildanfathir/brainwave-typescript:latest'
+                script {
+                    docker.withRegistry('https://index.docker.io/v1/', DOCKER_CREDENTIALS_ID) {
+                        def app = docker.build("${DOCKER_HUB}:${env.BRANCH_NAME}-${env.BUILD_NUMBER}")
+                        app.push()
+                        app.push("latest")
+                    }
+                }
             }
         }
     }
