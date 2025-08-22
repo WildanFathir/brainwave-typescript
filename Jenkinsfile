@@ -3,7 +3,7 @@ pipeline {
         docker {
             image 'node:18'
             // opsional kalau masih error, bisa tambahin ini:
-            // args '-u root'
+            args '-u root'
         }
     }
 
