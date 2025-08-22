@@ -1,6 +1,10 @@
 pipeline {
     agent {
-        docker { image 'node:18' }
+        docker {
+            image 'node:18'
+            // opsional kalau masih error, bisa tambahin ini:
+            // args '-u root'
+        }
     }
 
     environment {
@@ -17,6 +21,10 @@ pipeline {
 
         stage('Install dependencies & Build') {
             steps {
+                // 🔹 1. paksa cache npm disimpan di workspace Jenkins (biar nggak kena error permission /.npm)
+                sh 'npm config set cache $(pwd)/.npm-cache --global'
+
+                // 🔹 2. install & build
                 sh 'npm ci'
                 sh 'npm run build'
             }
