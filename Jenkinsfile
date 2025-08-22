@@ -1,7 +1,9 @@
 pipeline {
     agent {
-        docker { image 'node:18' }
-        args '-u root:root'
+        docker {
+            image 'node:18'
+            args '-u root:root'
+        }
     }
 
     environment {
