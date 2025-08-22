@@ -1,10 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:18'
-            args '-u root:root'
-        }
-    }
+    agent any
 
     environment {
         DOCKER_HUB = "wildanfathir/brainwave-test"
@@ -19,6 +14,12 @@ pipeline {
         }
 
         stage('Install dependencies & Build') {
+            agent {
+                docker {
+                    image 'node:18'
+                    args '-u root:root'
+                }
+            }
             steps {
                 sh 'npm ci'
                 sh 'npm run build'
