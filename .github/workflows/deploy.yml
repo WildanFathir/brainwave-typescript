@@ -11,7 +11,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # (Opsional) build/test app
+      # Build app terlebih dahulu
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
@@ -23,7 +23,11 @@ jobs:
       - name: Build Vite
         run: npm run build
 
-      # Build & push Docker image
+      # Pastikan folder dist ada
+      - name: Verify dist folder
+        run: ls -la dist/
+
+      # Build & push Docker image SETELAH build app
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
