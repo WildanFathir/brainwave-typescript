@@ -2,31 +2,39 @@ name: DEPLOY - Build & Push
 
 on:
   push:
-    branches: ['development']
-    tags: ['v*']
+    tags: ['v-dev*']
 
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       # (Opsional) build/test app
-      - uses: actions/setup-node@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: 18
-      - run: npm ci
-      - run: npm run build
+          node-version: '22'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Vite
+        run: npm run build
 
       # Build & push Docker image
-      - uses: docker/setup-buildx-action@v3
-      - uses: docker/login-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: docker/build-push-action@v5
+
+      - name: Build and Push Docker image
+        uses: docker/build-push-action@v5
         with:
           context: .
           push: true
