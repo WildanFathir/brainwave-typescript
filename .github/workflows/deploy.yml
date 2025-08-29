@@ -2,7 +2,7 @@ name: DEPLOY - Build & Push
 
 on:
   push:
-    branches: ['development', 'main']
+    branches: ['development']
     tags: ['v*']
 
 jobs:
