@@ -2,7 +2,7 @@ name: DEPLOY - Build & Push
 
 on:
   push:
-    tags: ['v-dev*']
+    tags: ['v*-dev']
 
 jobs:
   build-and-push:
