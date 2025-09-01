@@ -24,7 +24,7 @@ const Hero = () => {
       <div className="container relative" ref={parallaxRef}>
         <div className="relative z-1 max-w-[62rem] mx-auto text-center mb-[4rem] md:mb-20 lg:mb-[6rem]">
           <h1 className="mb-6 h1">
-            Explore Automation Deploy CI/CD v3 the Possibilites of&nbsp;AI&nbsp; Chatting with{' '}
+            Explore Automation Deploy CI/CD v4 the Possibilites of&nbsp;AI&nbsp; Chatting with{' '}
             <span className="relative inline-block">
               Brainwave
               <img
